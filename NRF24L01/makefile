@@ -35,4 +35,4 @@ load:	$(OUT)$(PROJ_NAME).ihx
 	stm8flash -c stlinkv2 -p $(DEVICE) -w $(OUT)$(PROJ_NAME).ihx
 
 clean:
-	@-rm -f $(OUT)*.asm $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d $(OUT)*.
+	@-rm -f $(OUT)*.asm $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d
