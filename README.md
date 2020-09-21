@@ -1,5 +1,5 @@
 # STM8
-#STM8S103F3.
+#
 #
 #My working projects on STM8S103F3P6.
 #
