@@ -1,5 +1,5 @@
 #Project name.
-PROJ_NAME = clock
+PROJ_NAME = main
 #Compiler
 CC = @sdcc
 #Include directory
@@ -13,9 +13,8 @@ MCU = stm8
 #Compiler flags.
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
---Werror					\
 -MMD
-
+#--Werror					\
 #Your device for stm8flash.
 DEVICE = stm8s103f3		# Your device for stm8flash.
 #All object.
