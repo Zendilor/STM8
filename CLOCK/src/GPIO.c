@@ -18,4 +18,8 @@ void GPIOD_Config (void){
   GPIOD->DDR &= ~0x40;  // Set PD6 as input.
   GPIOD->CR1 &= ~0x40;  // Set PD6 floating input.
 
+  GPIOD->DDR |= 0x10;
+  GPIOD->CR1 |= 0x10;
+  GPIOD->ODR |= 0x10;
+
 }
