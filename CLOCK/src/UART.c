@@ -1,4 +1,4 @@
-#include "stm8s.h"
+﻿#include "stm8s.h"
 #include "UART.h"
 
 void UART_Config (void){

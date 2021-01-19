@@ -1,4 +1,4 @@
-#include "stm8s.h"
+﻿#include "stm8s.h"
 
 void TIMER2_Config (void);
 void TIMER4_Config (void);

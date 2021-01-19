@@ -1,11 +1,11 @@
-#include "stm8s.h"
+﻿#include "stm8s.h"
 
 void GPIOB_Config (void);
 void GPIOD_Config (void);
 
 void GPIO_Config (void){
-  GPIOB_Config();
-  //GPIOD_Config();
+  //GPIOB_Config();
+  GPIOD_Config();
 }
 
 void GPIOB_Config (void){
@@ -21,5 +21,4 @@ void GPIOD_Config (void){
   GPIOD->DDR |= 0x10;
   GPIOD->CR1 |= 0x10;
   GPIOD->ODR |= 0x10;
-
 }
