@@ -1,13 +1,13 @@
 # STM8
 #
 #
-#My working projects on STM8S103F3P6.
+# My working projects on STM8S103F3P6.
 #
 #
 #
 #
 #
 #
-#Dependencies:
+# Dependencies:
 1. SDCC compiler.
 2. stm8flash.

@@ -1,4 +1,4 @@
-#Project name.
+﻿#Project name.
 PROJ_NAME = main
 #Compiler
 CC = @sdcc
@@ -19,6 +19,7 @@ CFLAG = -m$(MCU)	\
 --debug
 #Your device for stm8flash.
 DEVICE = stm8s103f3		# Your device for stm8flash.
+
 #All object.
 OBJECT = $(patsubst $(SRC)%.c, $(OUT)%.rel,$(wildcard $(SRC)*.c))	# All object.
 
