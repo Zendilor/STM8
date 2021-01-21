@@ -13,8 +13,10 @@ MCU = stm8
 #Compiler flags.
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
--MMD
-#--Werror					\
+-MMD							\
+--no-peep					\
+--Werror					\
+--debug
 #Your device for stm8flash.
 DEVICE = stm8s103f3		# Your device for stm8flash.
 #All object.
