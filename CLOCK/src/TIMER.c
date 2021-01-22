@@ -16,15 +16,14 @@ void TIMER1_Config (void){
 
 void TIMER2_Config (void){
   TIM2->CCR1H = 0x00;
-  TIM2->CCR1L = 0x01;
+  TIM2->CCR1L = 64;
   TIM2->ARRH = 0x0;
-  TIM2->ARRL = 0x1f;
+  TIM2->ARRL = 160;
   TIM2->CCMR1 |= 0x60;        // Set PWM 1 mode.
   TIM2->CCMR1 |= 0x08;        // Output compare preload enable.
-  //TIM2->CR1 |= TIM2_CR1_ARPE; // Enable auto-reload preload mode.
   TIM2->CCER1 |= TIM2_CCER1_CC1E;
   //TIM2->IER |= TIM2_IER_UIE;  // Enable interrupt update.
-  TIM2->PSCR = 0x04;          // Prescaler 16.
+  TIM2->PSCR = 1;          // Prescaler 1.
   TIM2->CR1 |= TIM2_CR1_CEN;   // Enable counter.
 }
 

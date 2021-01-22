@@ -14,9 +14,9 @@ MCU = stm8
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
---no-peep					\
+#--no-peep					\
 --Werror					\
---debug
+#--debug
 #Your device for stm8flash.
 DEVICE = stm8s103f3		# Your device for stm8flash.
 
@@ -38,4 +38,4 @@ load:	$(OUT)$(PROJ_NAME).ihx
 	stm8flash -c stlinkv2 -p $(DEVICE) -w $(OUT)$(PROJ_NAME).ihx
 
 clean:
-	@-rm -f $(OUT)*.asm $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d
+	@-rm -f $(OUT)*.asm $(OUT)*.adb $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d
