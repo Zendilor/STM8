@@ -11,8 +11,7 @@ void ADC_Config (void){
 }
 
 int Get_Result (void){
-  int data = ADC1->DRH;
-  data = data << 8;
-  data |= ADC1->DRL;
+  int data = ADC1->DRL;
+  data |= ADC1->DRH << 8;
   return data;
 }

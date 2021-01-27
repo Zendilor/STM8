@@ -1,5 +1,9 @@
 ﻿#include "stm8s.h"
 
+uint16_t Divider = 65535;   // Divider timer.
+uint8_t Duty = 10;         // Duty cycle(on percent).
+
+
 void TIMER2_Config (void);
 void TIMER4_Config (void);
 
@@ -15,10 +19,10 @@ void TIMER1_Config (void){
 }
 
 void TIMER2_Config (void){
-  TIM2->CCR1H = 0x00;
-  TIM2->CCR1L = 64;
-  TIM2->ARRH = 0x0;
-  TIM2->ARRL = 160;
+  TIM2->CCR1H = ((Divider * Duty) / 100) >> 8;
+  TIM2->CCR1L = (Divider * Duty) / 100;
+  TIM2->ARRH = Divider >> 8;
+  TIM2->ARRL = Divider;
   TIM2->CCMR1 |= 0x60;        // Set PWM 1 mode.
   TIM2->CCMR1 |= 0x08;        // Output compare preload enable.
   TIM2->CCER1 |= TIM2_CCER1_CC1E;

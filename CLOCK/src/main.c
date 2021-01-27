@@ -5,10 +5,10 @@
 #include "ADC.h"
 #include "stm8s.h"
 
-uint16_t data = 0xEFCD;
+void Convert_value (void);
 
 int main (void){
-  enableInterrupts();
+  //enableInterrupts();
   CLK_Config();
   GPIO_Config();
   UART_Config();
@@ -31,7 +31,17 @@ INTERRUPT_HANDLER(IRQ_TIMER2, 13){
 
 INTERRUPT_HANDLER(IRQ_ADC, 22){ // Interrupt body for ADC1.
   ADC1->CSR &= ~ADC1_CSR_EOC;    // Clear flag interrupt for ADC1.
-  //UART_Send_16bit(Get_Result());
-  UART_Send(ADC1->DRH);
+  Convert_value();
   ADC1->CR1 |= ADC1_CR1_ADON;
+}
+
+void Convert_value (void){
+  unsigned int data = Get_Result();
+  UART_Send_16bit(data);
+  data = data * 64.0615835;
+  TIM2->ARRL = data;
+  TIM2->ARRH = data >> 8;
+  data = (data * 60) / 100;
+  TIM2->CCR1L = data;
+  TIM2->CCR1H = data >> 8;
 }
