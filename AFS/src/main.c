@@ -8,7 +8,7 @@
 void Convert_value (void);
 
 int main (void){
-  //enableInterrupts();
+  enableInterrupts();
   CLK_Config();
   GPIO_Config();
   UART_Config();
@@ -21,18 +21,18 @@ int main (void){
 }
 
 INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
-  UART_Send(UART1->DR);
+  //UART_Send(UART1->DR);
 }
 
 INTERRUPT_HANDLER(IRQ_TIMER2, 13){
   TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
-  UART_Send(0x39);
+  ADC1->CR1 |= ADC1_CR1_ADON;
 }
 
 INTERRUPT_HANDLER(IRQ_ADC, 22){ // Interrupt body for ADC1.
   ADC1->CSR &= ~ADC1_CSR_EOC;    // Clear flag interrupt for ADC1.
   Convert_value();
-  ADC1->CR1 |= ADC1_CR1_ADON;
+  //ADC1->CR1 |= ADC1_CR1_ADON;
 }
 
 void Convert_value (void){
