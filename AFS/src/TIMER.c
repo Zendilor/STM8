@@ -22,7 +22,7 @@ void TIMER2_Config (void){
   TIM2->ARRH = Divider >> 8;
   TIM2->ARRL = Divider;
   TIM2->IER |= TIM2_IER_UIE;  // Enable interrupt update.
-  TIM2->PSCR = 9;          // Prescaler 1.
+  TIM2->PSCR = 8;          // Prescaler 1.
   TIM2->CR1 |= TIM2_CR1_CEN;   // Enable counter.
 }
 
