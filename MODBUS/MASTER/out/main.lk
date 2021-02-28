@@ -1,0 +1,17 @@
+-muwx
+-i out/main.ihx
+-Y
+-b HOME = 0x8000
+-b DATA = 0x0001
+-b SSEG = 0xffffffff
+-k /usr/bin/../share/sdcc/lib/stm8
+-k /usr/share/sdcc/lib/stm8
+-l stm8
+out/CLK.rel
+out/GPIO.rel
+out/main.rel
+out/MODBUS.rel
+out/TIMER.rel
+out/UART.rel
+
+-e

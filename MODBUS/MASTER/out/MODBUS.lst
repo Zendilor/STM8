@@ -1,0 +1,240 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module MODBUS
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _UART_Send_Buff
+                                     12 	.globl _UART_Send
+                                     13 	.globl _data
+                                     14 	.globl _MASTER_Send
+                                     15 	.globl _CRC_Calc
+                                     16 	.globl _Send_CRC
+                                     17 	.globl _Set_Address
+                                     18 	.globl _Set_Command
+                                     19 	.globl _Set_Register
+                                     20 	.globl _Set_Counter
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area DATA
+      000000                         25 _data::
+      000000                         26 	.ds 6
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area INITIALIZED
+                                     31 ;--------------------------------------------------------
+                                     32 ; absolute external ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area DABS (ABS)
+                                     35 
+                                     36 ; default segment ordering for linker
+                                     37 	.area HOME
+                                     38 	.area GSINIT
+                                     39 	.area GSFINAL
+                                     40 	.area CONST
+                                     41 	.area INITIALIZER
+                                     42 	.area CODE
+                                     43 
+                                     44 ;--------------------------------------------------------
+                                     45 ; global & static initialisations
+                                     46 ;--------------------------------------------------------
+                                     47 	.area HOME
+                                     48 	.area GSINIT
+                                     49 	.area GSFINAL
+                                     50 	.area GSINIT
+                                     51 ;--------------------------------------------------------
+                                     52 ; Home
+                                     53 ;--------------------------------------------------------
+                                     54 	.area HOME
+                                     55 	.area HOME
+                                     56 ;--------------------------------------------------------
+                                     57 ; code
+                                     58 ;--------------------------------------------------------
+                                     59 	.area CODE
+                                     60 ;	src/MODBUS.c: 11: void MASTER_Send (void){
+                                     61 ;	-----------------------------------------
+                                     62 ;	 function MASTER_Send
+                                     63 ;	-----------------------------------------
+      000000                         64 _MASTER_Send:
+                                     65 ;	src/MODBUS.c: 12: Set_Address(10);
+      000000 4B 0A            [ 1]   66 	push	#0x0a
+      000002 CDr00r9D         [ 4]   67 	call	_Set_Address
+      000005 84               [ 1]   68 	pop	a
+                                     69 ;	src/MODBUS.c: 13: Set_Command(3);
+      000006 4B 03            [ 1]   70 	push	#0x03
+      000008 CDr00rA4         [ 4]   71 	call	_Set_Command
+      00000B 84               [ 1]   72 	pop	a
+                                     73 ;	src/MODBUS.c: 14: Set_Register(0x01f3);
+      00000C 4B F3            [ 1]   74 	push	#0xf3
+      00000E 4B 01            [ 1]   75 	push	#0x01
+      000010 CDr00rAB         [ 4]   76 	call	_Set_Register
+      000013 5B 02            [ 2]   77 	addw	sp, #2
+                                     78 ;	src/MODBUS.c: 15: Set_Counter(1);
+      000015 4B 01            [ 1]   79 	push	#0x01
+      000017 4B 00            [ 1]   80 	push	#0x00
+      000019 CDr00rB8         [ 4]   81 	call	_Set_Counter
+      00001C 5B 02            [ 2]   82 	addw	sp, #2
+                                     83 ;	src/MODBUS.c: 16: UART_Send_Buff(data, sizeof data);
+      00001E 4B 06            [ 1]   84 	push	#0x06
+      000020 4Br00            [ 1]   85 	push	#<(_data + 0)
+      000022 4Bs00            [ 1]   86 	push	#((_data + 0) >> 8)
+      000024 CDr00r00         [ 4]   87 	call	_UART_Send_Buff
+      000027 5B 03            [ 2]   88 	addw	sp, #3
+                                     89 ;	src/MODBUS.c: 17: Send_CRC(CRC_Calc(data, sizeof data));
+      000029 4B 06            [ 1]   90 	push	#0x06
+      00002B 4Br00            [ 1]   91 	push	#<(_data + 0)
+      00002D 4Bs00            [ 1]   92 	push	#((_data + 0) >> 8)
+      00002F CDr00r3B         [ 4]   93 	call	_CRC_Calc
+      000032 5B 03            [ 2]   94 	addw	sp, #3
+      000034 89               [ 2]   95 	pushw	x
+      000035 CDr00r8E         [ 4]   96 	call	_Send_CRC
+      000038 5B 02            [ 2]   97 	addw	sp, #2
+                                     98 ;	src/MODBUS.c: 18: }
+      00003A 81               [ 4]   99 	ret
+                                    100 ;	src/MODBUS.c: 20: unsigned int CRC_Calc (unsigned char *data, unsigned char data_length){
+                                    101 ;	-----------------------------------------
+                                    102 ;	 function CRC_Calc
+                                    103 ;	-----------------------------------------
+      00003B                        104 _CRC_Calc:
+      00003B 52 07            [ 2]  105 	sub	sp, #7
+                                    106 ;	src/MODBUS.c: 22: unsigned int crc_val = 0xFFFF;
+      00003D AE FF FF         [ 2]  107 	ldw	x, #0xffff
+      000040 1F 01            [ 2]  108 	ldw	(0x01, sp), x
+                                    109 ;	src/MODBUS.c: 23: while(data_length--){
+      000042 16 0A            [ 2]  110 	ldw	y, (0x0a, sp)
+      000044 17 03            [ 2]  111 	ldw	(0x03, sp), y
+      000046 7B 0C            [ 1]  112 	ld	a, (0x0c, sp)
+      000048 6B 05            [ 1]  113 	ld	(0x05, sp), a
+      00004A                        114 00105$:
+      00004A 7B 05            [ 1]  115 	ld	a, (0x05, sp)
+      00004C 6B 07            [ 1]  116 	ld	(0x07, sp), a
+      00004E 0A 05            [ 1]  117 	dec	(0x05, sp)
+      000050 0D 07            [ 1]  118 	tnz	(0x07, sp)
+      000052 27 35            [ 1]  119 	jreq	00107$
+                                    120 ;	src/MODBUS.c: 24: crc_val^=*data++;
+      000054 1E 03            [ 2]  121 	ldw	x, (0x03, sp)
+      000056 F6               [ 1]  122 	ld	a, (x)
+      000057 1E 03            [ 2]  123 	ldw	x, (0x03, sp)
+      000059 5C               [ 1]  124 	incw	x
+      00005A 1F 03            [ 2]  125 	ldw	(0x03, sp), x
+      00005C 5F               [ 1]  126 	clrw	x
+      00005D 18 02            [ 1]  127 	xor	a, (0x02, sp)
+      00005F 02               [ 1]  128 	rlwa	x
+      000060 18 01            [ 1]  129 	xor	a, (0x01, sp)
+      000062 95               [ 1]  130 	ld	xh, a
+      000063 1F 01            [ 2]  131 	ldw	(0x01, sp), x
+                                    132 ;	src/MODBUS.c: 25: for(i = 0; i < 8; i++){
+      000065 5F               [ 1]  133 	clrw	x
+      000066 1F 06            [ 2]  134 	ldw	(0x06, sp), x
+      000068                        135 00108$:
+                                    136 ;	src/MODBUS.c: 27: crc_val = (crc_val >> 1) ^ 0xA001;
+      000068 1E 01            [ 2]  137 	ldw	x, (0x01, sp)
+      00006A 54               [ 2]  138 	srlw	x
+                                    139 ;	src/MODBUS.c: 26: if(crc_val & 0x0001){
+      00006B 7B 02            [ 1]  140 	ld	a, (0x02, sp)
+      00006D 44               [ 1]  141 	srl	a
+      00006E 24 0B            [ 1]  142 	jrnc	00102$
+                                    143 ;	src/MODBUS.c: 27: crc_val = (crc_val >> 1) ^ 0xA001;
+      000070 9F               [ 1]  144 	ld	a, xl
+      000071 A8 01            [ 1]  145 	xor	a, #0x01
+      000073 02               [ 1]  146 	rlwa	x
+      000074 A8 A0            [ 1]  147 	xor	a, #0xa0
+      000076 95               [ 1]  148 	ld	xh, a
+      000077 1F 01            [ 2]  149 	ldw	(0x01, sp), x
+      000079 20 02            [ 2]  150 	jra	00109$
+      00007B                        151 00102$:
+                                    152 ;	src/MODBUS.c: 29: crc_val = crc_val >> 1;
+      00007B 1F 01            [ 2]  153 	ldw	(0x01, sp), x
+      00007D                        154 00109$:
+                                    155 ;	src/MODBUS.c: 25: for(i = 0; i < 8; i++){
+      00007D 1E 06            [ 2]  156 	ldw	x, (0x06, sp)
+      00007F 5C               [ 1]  157 	incw	x
+      000080 1F 06            [ 2]  158 	ldw	(0x06, sp), x
+      000082 A3 00 08         [ 2]  159 	cpw	x, #0x0008
+      000085 2F E1            [ 1]  160 	jrslt	00108$
+      000087 20 C1            [ 2]  161 	jra	00105$
+      000089                        162 00107$:
+                                    163 ;	src/MODBUS.c: 33: return crc_val;
+      000089 1E 01            [ 2]  164 	ldw	x, (0x01, sp)
+                                    165 ;	src/MODBUS.c: 34: }
+      00008B 5B 07            [ 2]  166 	addw	sp, #7
+      00008D 81               [ 4]  167 	ret
+                                    168 ;	src/MODBUS.c: 36: void Send_CRC (uint16_t data){
+                                    169 ;	-----------------------------------------
+                                    170 ;	 function Send_CRC
+                                    171 ;	-----------------------------------------
+      00008E                        172 _Send_CRC:
+                                    173 ;	src/MODBUS.c: 37: UART_Send(data);
+      00008E 7B 04            [ 1]  174 	ld	a, (0x04, sp)
+      000090 88               [ 1]  175 	push	a
+      000091 CDr00r00         [ 4]  176 	call	_UART_Send
+      000094 84               [ 1]  177 	pop	a
+                                    178 ;	src/MODBUS.c: 38: UART_Send(data >> 8);
+      000095 7B 03            [ 1]  179 	ld	a, (0x03, sp)
+      000097 88               [ 1]  180 	push	a
+      000098 CDr00r00         [ 4]  181 	call	_UART_Send
+      00009B 84               [ 1]  182 	pop	a
+                                    183 ;	src/MODBUS.c: 39: }
+      00009C 81               [ 4]  184 	ret
+                                    185 ;	src/MODBUS.c: 41: void Set_Address (uint8_t value){
+                                    186 ;	-----------------------------------------
+                                    187 ;	 function Set_Address
+                                    188 ;	-----------------------------------------
+      00009D                        189 _Set_Address:
+                                    190 ;	src/MODBUS.c: 42: data [0] = value;
+      00009D AEr00r00         [ 2]  191 	ldw	x, #(_data + 0)
+      0000A0 7B 03            [ 1]  192 	ld	a, (0x03, sp)
+      0000A2 F7               [ 1]  193 	ld	(x), a
+                                    194 ;	src/MODBUS.c: 43: }
+      0000A3 81               [ 4]  195 	ret
+                                    196 ;	src/MODBUS.c: 45: void Set_Command (uint8_t value){
+                                    197 ;	-----------------------------------------
+                                    198 ;	 function Set_Command
+                                    199 ;	-----------------------------------------
+      0000A4                        200 _Set_Command:
+                                    201 ;	src/MODBUS.c: 46: data [1] = value;
+      0000A4 AEr00r01         [ 2]  202 	ldw	x, #(_data + 1)
+      0000A7 7B 03            [ 1]  203 	ld	a, (0x03, sp)
+      0000A9 F7               [ 1]  204 	ld	(x), a
+                                    205 ;	src/MODBUS.c: 47: }
+      0000AA 81               [ 4]  206 	ret
+                                    207 ;	src/MODBUS.c: 49: void Set_Register (uint16_t value){
+                                    208 ;	-----------------------------------------
+                                    209 ;	 function Set_Register
+                                    210 ;	-----------------------------------------
+      0000AB                        211 _Set_Register:
+                                    212 ;	src/MODBUS.c: 50: data [2] = value >> 8;
+      0000AB AEr00r02         [ 2]  213 	ldw	x, #(_data + 0)+2
+      0000AE 7B 03            [ 1]  214 	ld	a, (0x03, sp)
+      0000B0 F7               [ 1]  215 	ld	(x), a
+                                    216 ;	src/MODBUS.c: 51: data [3] = value;
+      0000B1 AEr00r03         [ 2]  217 	ldw	x, #(_data + 0)+3
+      0000B4 7B 04            [ 1]  218 	ld	a, (0x04, sp)
+      0000B6 F7               [ 1]  219 	ld	(x), a
+                                    220 ;	src/MODBUS.c: 52: }
+      0000B7 81               [ 4]  221 	ret
+                                    222 ;	src/MODBUS.c: 54: void Set_Counter (uint16_t value){
+                                    223 ;	-----------------------------------------
+                                    224 ;	 function Set_Counter
+                                    225 ;	-----------------------------------------
+      0000B8                        226 _Set_Counter:
+                                    227 ;	src/MODBUS.c: 55: data [4] = value >> 8;
+      0000B8 AEr00r04         [ 2]  228 	ldw	x, #(_data + 0)+4
+      0000BB 7B 03            [ 1]  229 	ld	a, (0x03, sp)
+      0000BD F7               [ 1]  230 	ld	(x), a
+                                    231 ;	src/MODBUS.c: 56: data [5] = value;
+      0000BE AEr00r05         [ 2]  232 	ldw	x, #(_data + 0)+5
+      0000C1 7B 04            [ 1]  233 	ld	a, (0x04, sp)
+      0000C3 F7               [ 1]  234 	ld	(x), a
+                                    235 ;	src/MODBUS.c: 57: }
+      0000C4 81               [ 4]  236 	ret
+                                    237 	.area CODE
+                                    238 	.area CONST
+                                    239 	.area INITIALIZER
+                                    240 	.area CABS (ABS)

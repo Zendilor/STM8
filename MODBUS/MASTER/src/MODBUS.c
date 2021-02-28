@@ -10,12 +10,11 @@ unsigned int CRC_Calc (unsigned char *data, unsigned char data_length);
 
 void MASTER_Send (void){
   Set_Address(10);
-  Set_Command(6);
-  Set_Register(7);
-  Set_Counter(2);
+  Set_Command(3);
+  Set_Register(0x01f3);
+  Set_Counter(1);
   UART_Send_Buff(data, sizeof data);
   Send_CRC(CRC_Calc(data, sizeof data));
-  //UART_Send_Buff(test, sizeof test);
 }
 
 unsigned int CRC_Calc (unsigned char *data, unsigned char data_length){
@@ -35,8 +34,8 @@ unsigned int CRC_Calc (unsigned char *data, unsigned char data_length){
 }
 
 void Send_CRC (uint16_t data){
-  UART_Send(data >> 8);
   UART_Send(data);
+  UART_Send(data >> 8);
 }
 
 void Set_Address (uint8_t value){

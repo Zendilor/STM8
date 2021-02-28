@@ -38,4 +38,4 @@ clean:
 	@-rm -f $(OUT)*.asm $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d
 
 start_server:
-	@./diagslave /dev/ttyUSB0 -m rtu -b 9600 -a 10 -f 3
+	@./diagslave /dev/ttyUSB0 -m rtu -b 19200 -a 10 -f 3

@@ -1,0 +1,32 @@
+XH3
+H B areas 3 global symbols
+M GPIO
+O -mstm8
+S .__.ABS. Def000000
+A _CODE size 0 flags 0 addr 0
+A DATA size 0 flags 0 addr 0
+A INITIALIZED size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A HOME size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CONST size 0 flags 0 addr 0
+A INITIALIZER size 0 flags 0 addr 0
+A CODE size 2C flags 0 addr 0
+S _GPIO_Config Def000000
+S _GPIOD_Config Def000003
+A CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 09
+T 00 00 00 CC 00 03
+R 00 00 00 09 00 04 00 09
+T 00 00 03
+R 00 00 00 09
+T 00 00 03 72 1A 50 11 C6 50 11 A4 40 C7 50 11 72
+R 00 00 00 09
+T 00 00 10 1A 50 12 C6 50 12 A4 40 C7 50 12 C6
+R 00 00 00 09
+T 00 00 1C 50 13 A4 20 C7 50 13 C6 50 13 A4 40 C7
+R 00 00 00 09
+T 00 00 29 50 13 81
+R 00 00 00 09

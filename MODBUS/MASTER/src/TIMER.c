@@ -1,6 +1,6 @@
 #include "stm8s.h"
 
-uint16_t Divider = 50000;   // Divider for TIMER2.
+uint16_t Divider = 15625;   // Divider for TIMER2.
 
 void TIMER2_Config (void);
 
