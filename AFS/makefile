@@ -14,11 +14,11 @@ MCU = stm8
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
-#--no-peep					\
+--no-peep					\
 --Werror					\
-#--debug
+--debug
 #Your device for stm8flash.
-DEVICE = stm8s103f3		# Your device for stm8flash.
+DEVICE = stm8s003f3		# Your device for stm8flash.
 
 #All object.
 OBJECT = $(patsubst $(SRC)%.c, $(OUT)%.rel,$(wildcard $(SRC)*.c))	# All object.

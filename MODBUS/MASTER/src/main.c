@@ -20,7 +20,17 @@ INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
 
 }
 
+
+INTERRUPT_HANDLER(IRQ_TIMER1, 11){
+  TIM1->SR1 &= ~TIM1_SR1_UIF;   // Clear interrupt flag TIMER1.
+  UART_Send(0x31);
+}
+
 INTERRUPT_HANDLER(IRQ_TIMER2, 13){
   TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag TIMER2.
-  MASTER_Send();
+  //MASTER_Send();
+}
+
+INTERRUPT_HANDLER(IRQ_TIMER4, 23){
+  TIM4->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag TIMER4.
 }

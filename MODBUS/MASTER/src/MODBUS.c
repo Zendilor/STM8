@@ -2,7 +2,9 @@
 #include "UART.h"
 #include "stm8s.h"
 
-uint8_t data [6];
+uint8_t data_receiver [6];
+uint8_t data_master [6];
+
 
 void Send_CRC (uint16_t data);
 unsigned int CRC_Calc (unsigned char *data, unsigned char data_length);
@@ -11,10 +13,14 @@ unsigned int CRC_Calc (unsigned char *data, unsigned char data_length);
 void MASTER_Send (void){
   Set_Address(10);
   Set_Command(3);
-  Set_Register(0x01f3);
+  Set_Register(0);
   Set_Counter(1);
-  UART_Send_Buff(data, sizeof data);
-  Send_CRC(CRC_Calc(data, sizeof data));
+  UART_Send_Buff(data_master, sizeof data_master);
+  Send_CRC(CRC_Calc(data_master, sizeof data_master));
+}
+
+void MASTER_Receiv (void){
+
 }
 
 unsigned int CRC_Calc (unsigned char *data, unsigned char data_length){
@@ -39,19 +45,19 @@ void Send_CRC (uint16_t data){
 }
 
 void Set_Address (uint8_t value){
-  data [0] = value;
+  data_master [0] = value;
 }
 
 void Set_Command (uint8_t value){
-  data [1] = value;
+  data_master [1] = value;
 }
 
 void Set_Register (uint16_t value){
-  data [2] = value >> 8;
-  data [3] = value;
+  data_master [2] = value >> 8;
+  data_master [3] = value;
 }
 
 void Set_Counter (uint16_t value){
-  data [4] = value >> 8;
-  data [5] = value;
+  data_master [4] = value >> 8;
+  data_master [5] = value;
 }
