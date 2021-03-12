@@ -15,10 +15,9 @@ CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
 --no-peep					\
---Werror					\
---debug
+--Werror
 #Your device for stm8flash.
-DEVICE = stm8s003f3		# Your device for stm8flash.
+DEVICE = stm8s103f3		# Your device for stm8flash.
 
 #All object.
 OBJECT = $(patsubst $(SRC)%.c, $(OUT)%.rel,$(wildcard $(SRC)*.c))	# All object.
@@ -28,6 +27,7 @@ OBJECT = $(patsubst $(SRC)%.c, $(OUT)%.rel,$(wildcard $(SRC)*.c))	# All object.
 
 $(OUT)$(PROJ_NAME).ihx: $(OBJECT)
 	$(CC) $(CFLAG) -o $(OUT)$(PROJ_NAME).ihx $(OBJECT)
+	$(CC) --out-fmt-elf $(CFLAG) -o $(OUT)$(PROJ_NAME).elf $(OBJECT)
 
 $(OUT)%.rel: $(SRC)%.c
 	$(CC) $(CFLAG) -c  $< -o $@
