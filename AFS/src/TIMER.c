@@ -13,7 +13,7 @@ void TIMER_Config (void){
 }
 
 void TIMER1_Config (void){
-  TIM1->CR1 |= TIM1_CR1_ARPE; // Enable preload.
+	TIM1->CR1 |= TIM1_CR1_ARPE; // Enable preload.
 
   TIM1->CR1 |= TIM1_CR1_CEN;   // Enable TIM1.
 }

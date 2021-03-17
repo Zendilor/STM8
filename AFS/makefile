@@ -6,16 +6,21 @@ CC = @sdcc
 INC = inc/
 #Source directory.
 SRC = src/
+
 #Out directory
 OUT = out/
+
 #MCU type.
 MCU = stm8
+
 #Compiler flags.
+
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
 --no-peep					\
 --Werror
+
 #Your device for stm8flash.
 DEVICE = stm8s103f3		# Your device for stm8flash.
 
@@ -27,7 +32,7 @@ OBJECT = $(patsubst $(SRC)%.c, $(OUT)%.rel,$(wildcard $(SRC)*.c))	# All object.
 
 $(OUT)$(PROJ_NAME).ihx: $(OBJECT)
 	$(CC) $(CFLAG) -o $(OUT)$(PROJ_NAME).ihx $(OBJECT)
-	$(CC) --out-fmt-elf $(CFLAG) -o $(OUT)$(PROJ_NAME).elf $(OBJECT)
+	#$(CC) --out-fmt-elf $(CFLAG) -o $(OUT)$(PROJ_NAME).elf $(OBJECT)
 
 $(OUT)%.rel: $(SRC)%.c
 	$(CC) $(CFLAG) -c  $< -o $@

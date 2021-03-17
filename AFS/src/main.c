@@ -1,4 +1,4 @@
-﻿#include "CLK.h"
+#include "CLK.h"
 #include "GPIO.h"
 #include "UART.h"
 #include "TIMER.h"
@@ -8,25 +8,26 @@
 void Convert_value (void);
 
 int main (void){
-  enableInterrupts();
-  CLK_Config();
-  GPIO_Config();
-  UART_Config();
-  ADC_Config();
-  TIMER_Config();
+	//enableInterrupts();
+	CLK_Config();
+	GPIO_Config();
 
+	DIG_3_ON;
+	SEG_B_ON;
   while (1){
 
   }
 }
 
 INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
-  //UART_Send(UART1->DR);
+	UART_Send(UART1->DR);
+	UART_Send(0x31);
 }
 
+
 INTERRUPT_HANDLER(IRQ_TIMER2, 13){
-  TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
-  UART_Send(0x31);
+	TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
+	UART_Send(0x31);
   //ADC1->CR1 |= ADC1_CR1_ADON;
 }
 
@@ -44,5 +45,5 @@ void Convert_value (void){
   TIM2->ARRH = data >> 8;
   data = (data * 60) / 100;
   TIM2->CCR1L = data;
-  TIM2->CCR1H = data >> 8;
+	TIM2->CCR1H = data >> 8;
 }
