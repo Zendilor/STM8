@@ -3,17 +3,25 @@
 #include "UART.h"
 #include "TIMER.h"
 #include "ADC.h"
+#include "INDICATION.h"
 #include "stm8s.h"
 
 void Convert_value (void);
 
+extern uint8_t seg_num [3];
+
+float coefiz = 0.00322265625;
+uint16_t data_ADC = 0;
+
+char segs = 0;
+
 int main (void){
-	//enableInterrupts();
+	enableInterrupts();
 	CLK_Config();
 	GPIO_Config();
+	TIMER_Config();
+	ADC_Config();
 
-	DIG_3_ON;
-	SEG_B_ON;
   while (1){
 
   }
@@ -27,23 +35,16 @@ INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
 
 INTERRUPT_HANDLER(IRQ_TIMER2, 13){
 	TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
-	UART_Send(0x31);
-  //ADC1->CR1 |= ADC1_CR1_ADON;
+	Indication(segs);
+	segs++;
+	if (segs > 2){
+		segs = 0;
+	}
+	ADC1->CR1 |= ADC1_CR1_ADON;
 }
 
 INTERRUPT_HANDLER(IRQ_ADC, 22){ // Interrupt body for ADC1.
   ADC1->CSR &= ~ADC1_CSR_EOC;    // Clear flag interrupt for ADC1.
-  Convert_value();
-  //ADC1->CR1 |= ADC1_CR1_ADON;
-}
-
-void Convert_value (void){
-  unsigned int data = Get_Result();
-  UART_Send_16bit(data);
-  data = data * 64.0615835;
-  TIM2->ARRL = data;
-  TIM2->ARRH = data >> 8;
-  data = (data * 60) / 100;
-  TIM2->CCR1L = data;
-	TIM2->CCR1H = data >> 8;
+	data_ADC = Get_Result() * coefiz;
+	seg_num [0] = data_ADC;
 }
