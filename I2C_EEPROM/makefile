@@ -1,7 +1,7 @@
 ﻿#Project name.
 PROJ_NAME = main
 #Compiler
-CC = @sdcc
+CC = sdcc
 #Include directory
 INC = inc/
 #Source directory.
@@ -40,4 +40,4 @@ load:	$(OUT)$(PROJ_NAME).ihx
 	stm8flash -c stlinkv2 -p $(DEVICE) -w $(OUT)$(PROJ_NAME).ihx
 
 clean:
-	@-rm -f $(OUT)*.asm $(OUT)*.adb $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d
+	-rm -f $(OUT)*.asm $(OUT)*.adb $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d

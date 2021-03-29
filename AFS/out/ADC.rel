@@ -1,0 +1,42 @@
+XH3
+H B areas 3 global symbols
+M ADC
+O -mstm8
+S .__.ABS. Def000000
+A _CODE size 0 flags 0 addr 0
+A DATA size 0 flags 0 addr 0
+A INITIALIZED size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A HOME size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CONST size 0 flags 0 addr 0
+A INITIALIZER size 0 flags 0 addr 0
+A CODE size 4B flags 0 addr 0
+S _ADC_Config Def000000
+S _Get_Result Def000031
+A CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 09
+T 00 00 00 C6 54 01 AA 70 C7 54 01 C6 54 00 AA 06
+R 00 00 00 09
+T 00 00 0D C7 54 00 C6 54 00 AA 20 C7 54 00 C6
+R 00 00 00 09
+T 00 00 19 54 02 AA 08 C7 54 02 C6 54 01 AA 01 C7
+R 00 00 00 09
+T 00 00 26 54 01 C6 54 01 AA 01 C7 54 01
+R 00 00 00 09
+T 00 00 30
+R 00 00 00 09
+T 00 00 30 81
+R 00 00 00 09
+T 00 00 31
+R 00 00 00 09
+T 00 00 31 52 04 C6 54 05 5F 97 1F 01 C6 54 04 5F
+R 00 00 00 09
+T 00 00 3E 0F 04 1A 01 95 7B 02 1A 04 97
+R 00 00 00 09
+T 00 00 48
+R 00 00 00 09
+T 00 00 48 5B 04 81
+R 00 00 00 09

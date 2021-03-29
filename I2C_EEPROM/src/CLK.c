@@ -4,8 +4,8 @@ void CLK_Deinit (void);
 
 void CLK_Config (void){
   CLK_Deinit();
-  CLK->PCKENR1 |= CLK_PCKENR1_TIM2;   // Enable clock for TIM2.
-  CLK->PCKENR2 |= CLK_PCKENR2_ADC;    // Enable clock for ADC.
+  CLK->PCKENR1 |= CLK_PCKENR1_I2C;    // Enable clock for I2C.
+  CLK->PCKENR1 |= CLK_PCKENR1_UART2;  // Enable clock for UART1 (see datasheet).
 }
 
 void CLK_Deinit (void){

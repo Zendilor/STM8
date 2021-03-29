@@ -1,0 +1,151 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module TIMER
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _TIMER_Config
+                                     12 	.globl _TIM1_REL
+                                     13 	.globl _TIM1_DIV
+                                     14 	.globl _Duty
+                                     15 	.globl _Divider
+                                     16 	.globl _TIMER1_Config
+                                     17 	.globl _TIMER2_Config
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area INITIALIZED
+      000000                         26 _Divider::
+      000000                         27 	.ds 2
+      000002                         28 _Duty::
+      000002                         29 	.ds 1
+      000003                         30 _TIM1_DIV::
+      000003                         31 	.ds 2
+      000005                         32 _TIM1_REL::
+      000005                         33 	.ds 2
+                                     34 ;--------------------------------------------------------
+                                     35 ; absolute external ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area DABS (ABS)
+                                     38 
+                                     39 ; default segment ordering for linker
+                                     40 	.area HOME
+                                     41 	.area GSINIT
+                                     42 	.area GSFINAL
+                                     43 	.area CONST
+                                     44 	.area INITIALIZER
+                                     45 	.area CODE
+                                     46 
+                                     47 ;--------------------------------------------------------
+                                     48 ; global & static initialisations
+                                     49 ;--------------------------------------------------------
+                                     50 	.area HOME
+                                     51 	.area GSINIT
+                                     52 	.area GSFINAL
+                                     53 	.area GSINIT
+                                     54 ;--------------------------------------------------------
+                                     55 ; Home
+                                     56 ;--------------------------------------------------------
+                                     57 	.area HOME
+                                     58 	.area HOME
+                                     59 ;--------------------------------------------------------
+                                     60 ; code
+                                     61 ;--------------------------------------------------------
+                                     62 	.area CODE
+                                     63 ;	src/TIMER.c: 14: void TIMER_Config (void){
+                                     64 ;	-----------------------------------------
+                                     65 ;	 function TIMER_Config
+                                     66 ;	-----------------------------------------
+      000000                         67 _TIMER_Config:
+                                     68 ;	src/TIMER.c: 15: TIMER1_Config();
+      000000 CDr00r07         [ 4]   69 	call	_TIMER1_Config
+                                     70 ;	src/TIMER.c: 16: TIMER2_Config();
+      000003 CCr00r44         [ 2]   71 	jp	_TIMER2_Config
+      000006                         72 00101$:
+                                     73 ;	src/TIMER.c: 18: }
+      000006 81               [ 4]   74 	ret
+                                     75 ;	src/TIMER.c: 20: void TIMER1_Config (void){
+                                     76 ;	-----------------------------------------
+                                     77 ;	 function TIMER1_Config
+                                     78 ;	-----------------------------------------
+      000007                         79 _TIMER1_Config:
+                                     80 ;	src/TIMER.c: 21: TIM1->CR1 |= TIM1_CR1_ARPE;   // Enable preload.
+      000007 C6 52 50         [ 1]   81 	ld	a, 0x5250
+      00000A AA 80            [ 1]   82 	or	a, #0x80
+      00000C C7 52 50         [ 1]   83 	ld	0x5250, a
+                                     84 ;	src/TIMER.c: 22: TIM1->PSCRH = TIM1_DIV >> 8;  // Set divider H byte.
+      00000F C6u00u03         [ 1]   85 	ld	a, _TIM1_DIV+0
+      000012 5F               [ 1]   86 	clrw	x
+      000013 C7 52 60         [ 1]   87 	ld	0x5260, a
+                                     88 ;	src/TIMER.c: 23: TIM1->PSCRL = TIM1_DIV;       // Set divider L byte.
+      000016 C6u00u04         [ 1]   89 	ld	a, _TIM1_DIV+1
+      000019 C7 52 61         [ 1]   90 	ld	0x5261, a
+                                     91 ;	src/TIMER.c: 24: TIM1->ARRH = TIM1_REL > 8;    // Set autoreload H value.
+      00001C CEu00u05         [ 2]   92 	ldw	x, _TIM1_REL+0
+      00001F A3 00 08         [ 2]   93 	cpw	x, #0x0008
+      000022 22 04            [ 1]   94 	jrugt	00103$
+      000024 4F               [ 1]   95 	clr	a
+      000025 CCr00r2A         [ 2]   96 	jp	00104$
+      000028                         97 00103$:
+      000028 A6 01            [ 1]   98 	ld	a, #0x01
+      00002A                         99 00104$:
+      00002A C7 52 62         [ 1]  100 	ld	0x5262, a
+                                    101 ;	src/TIMER.c: 25: TIM1->ARRL = TIM1_REL;        // Set autoreload l value.
+      00002D C6u00u06         [ 1]  102 	ld	a, _TIM1_REL+1
+      000030 C7 52 63         [ 1]  103 	ld	0x5263, a
+                                    104 ;	src/TIMER.c: 26: TIM1->IER |= TIM1_IER_UIE;    // Enable interrupt.
+      000033 C6 52 54         [ 1]  105 	ld	a, 0x5254
+      000036 AA 01            [ 1]  106 	or	a, #0x01
+      000038 C7 52 54         [ 1]  107 	ld	0x5254, a
+                                    108 ;	src/TIMER.c: 27: TIM1->CR1 |= TIM1_CR1_CEN;    // Enable TIM1.
+      00003B C6 52 50         [ 1]  109 	ld	a, 0x5250
+      00003E AA 01            [ 1]  110 	or	a, #0x01
+      000040 C7 52 50         [ 1]  111 	ld	0x5250, a
+      000043                        112 00101$:
+                                    113 ;	src/TIMER.c: 28: }
+      000043 81               [ 4]  114 	ret
+                                    115 ;	src/TIMER.c: 30: void TIMER2_Config (void){
+                                    116 ;	-----------------------------------------
+                                    117 ;	 function TIMER2_Config
+                                    118 ;	-----------------------------------------
+      000044                        119 _TIMER2_Config:
+                                    120 ;	src/TIMER.c: 31: TIM2->ARRH = Divider >> 8;
+      000044 C6u00u00         [ 1]  121 	ld	a, _Divider+0
+      000047 5F               [ 1]  122 	clrw	x
+      000048 C7 53 0F         [ 1]  123 	ld	0x530f, a
+                                    124 ;	src/TIMER.c: 32: TIM2->ARRL = Divider;
+      00004B C6u00u01         [ 1]  125 	ld	a, _Divider+1
+      00004E C7 53 10         [ 1]  126 	ld	0x5310, a
+                                    127 ;	src/TIMER.c: 33: TIM2->IER |= TIM2_IER_UIE;  // Enable interrupt update.
+      000051 C6 53 03         [ 1]  128 	ld	a, 0x5303
+      000054 AA 01            [ 1]  129 	or	a, #0x01
+      000056 C7 53 03         [ 1]  130 	ld	0x5303, a
+                                    131 ;	src/TIMER.c: 34: TIM2->PSCR = 8;             // Prescaler 1.
+      000059 35 08 53 0E      [ 1]  132 	mov	0x530e+0, #0x08
+                                    133 ;	src/TIMER.c: 35: TIM2->CR1 |= TIM2_CR1_CEN;  // Enable counter.
+      00005D C6 53 00         [ 1]  134 	ld	a, 0x5300
+      000060 AA 01            [ 1]  135 	or	a, #0x01
+      000062 C7 53 00         [ 1]  136 	ld	0x5300, a
+      000065                        137 00101$:
+                                    138 ;	src/TIMER.c: 36: }
+      000065 81               [ 4]  139 	ret
+                                    140 	.area CODE
+                                    141 	.area CONST
+                                    142 	.area INITIALIZER
+      000000                        143 __xinit__Divider:
+      000000 01 77                  144 	.dw #0x0177
+      000002                        145 __xinit__Duty:
+      000002 0A                     146 	.db #0x0a	; 10
+      000003                        147 __xinit__TIM1_DIV:
+      000003 27 10                  148 	.dw #0x2710
+      000005                        149 __xinit__TIM1_REL:
+      000005 06 40                  150 	.dw #0x0640
+                                    151 	.area CABS (ABS)

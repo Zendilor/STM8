@@ -1,0 +1,281 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module GPIO
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _GPIO_Config
+                                     12 	.globl _GPIOB_Config
+                                     13 	.globl _GPIOC_Config
+                                     14 	.globl _GPIOD_Config
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area DABS (ABS)
+                                     27 
+                                     28 ; default segment ordering for linker
+                                     29 	.area HOME
+                                     30 	.area GSINIT
+                                     31 	.area GSFINAL
+                                     32 	.area CONST
+                                     33 	.area INITIALIZER
+                                     34 	.area CODE
+                                     35 
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area HOME
+                                     40 	.area GSINIT
+                                     41 	.area GSFINAL
+                                     42 	.area GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area HOME
+                                     47 	.area HOME
+                                     48 ;--------------------------------------------------------
+                                     49 ; code
+                                     50 ;--------------------------------------------------------
+                                     51 	.area CODE
+                                     52 ;	src/GPIO.c: 8: void GPIO_Config (void){
+                                     53 ;	-----------------------------------------
+                                     54 ;	 function GPIO_Config
+                                     55 ;	-----------------------------------------
+      000000                         56 _GPIO_Config:
+                                     57 ;	src/GPIO.c: 9: GPIOB_Config();
+      000000 CDr00r0A         [ 4]   58 	call	_GPIOB_Config
+                                     59 ;	src/GPIO.c: 10: GPIOC_Config();
+      000003 CDr00r4B         [ 4]   60 	call	_GPIOC_Config
+                                     61 ;	src/GPIO.c: 11: GPIOD_Config();
+      000006 CCr00rEC         [ 2]   62 	jp	_GPIOD_Config
+      000009                         63 00101$:
+                                     64 ;	src/GPIO.c: 12: }
+      000009 81               [ 4]   65 	ret
+                                     66 ;	src/GPIO.c: 14: void GPIOB_Config (void){
+                                     67 ;	-----------------------------------------
+                                     68 ;	 function GPIOB_Config
+                                     69 ;	-----------------------------------------
+      00000A                         70 _GPIOB_Config:
+                                     71 ;	src/GPIO.c: 16: GPIOB->DDR |= 0x10;   // Set PB4 as out.
+      00000A C6 50 07         [ 1]   72 	ld	a, 0x5007
+      00000D AA 10            [ 1]   73 	or	a, #0x10
+      00000F C7 50 07         [ 1]   74 	ld	0x5007, a
+                                     75 ;	src/GPIO.c: 17: GPIOB->DDR |= 0x20;   // Set PB5 as out.
+      000012 C6 50 07         [ 1]   76 	ld	a, 0x5007
+      000015 AA 20            [ 1]   77 	or	a, #0x20
+      000017 C7 50 07         [ 1]   78 	ld	0x5007, a
+                                     79 ;	src/GPIO.c: 20: GPIOB->CR1 &= ~0x10;  // Set PB4 as open drain.
+      00001A C6 50 08         [ 1]   80 	ld	a, 0x5008
+      00001D A4 EF            [ 1]   81 	and	a, #0xef
+      00001F C7 50 08         [ 1]   82 	ld	0x5008, a
+                                     83 ;	src/GPIO.c: 21: GPIOB->CR1 &= ~0x20;  // Set PB5 as open drain.
+      000022 C6 50 08         [ 1]   84 	ld	a, 0x5008
+      000025 A4 DF            [ 1]   85 	and	a, #0xdf
+      000027 C7 50 08         [ 1]   86 	ld	0x5008, a
+                                     87 ;	src/GPIO.c: 24: GPIOB->CR2 &= ~0x10;  // Set speed for PB4 2 MHz.
+      00002A C6 50 09         [ 1]   88 	ld	a, 0x5009
+      00002D A4 EF            [ 1]   89 	and	a, #0xef
+      00002F C7 50 09         [ 1]   90 	ld	0x5009, a
+                                     91 ;	src/GPIO.c: 25: GPIOB->CR2 &= ~0x20;  // Set speed for PB5 2 MHz.
+      000032 C6 50 09         [ 1]   92 	ld	a, 0x5009
+      000035 A4 DF            [ 1]   93 	and	a, #0xdf
+      000037 C7 50 09         [ 1]   94 	ld	0x5009, a
+                                     95 ;	src/GPIO.c: 28: GPIOB->ODR |= 0x10;   // Set hlvl on PB4.
+      00003A C6 50 05         [ 1]   96 	ld	a, 0x5005
+      00003D AA 10            [ 1]   97 	or	a, #0x10
+      00003F C7 50 05         [ 1]   98 	ld	0x5005, a
+                                     99 ;	src/GPIO.c: 29: GPIOB->ODR |= 0x20;   // Set hlvl on PB5.
+      000042 C6 50 05         [ 1]  100 	ld	a, 0x5005
+      000045 AA 20            [ 1]  101 	or	a, #0x20
+      000047 C7 50 05         [ 1]  102 	ld	0x5005, a
+      00004A                        103 00101$:
+                                    104 ;	src/GPIO.c: 30: }
+      00004A 81               [ 4]  105 	ret
+                                    106 ;	src/GPIO.c: 32: void GPIOC_Config (void){
+                                    107 ;	-----------------------------------------
+                                    108 ;	 function GPIOC_Config
+                                    109 ;	-----------------------------------------
+      00004B                        110 _GPIOC_Config:
+                                    111 ;	src/GPIO.c: 34: GPIOC->DDR |= 0x08;   // Set PC3 as out.
+      00004B C6 50 0C         [ 1]  112 	ld	a, 0x500c
+      00004E AA 08            [ 1]  113 	or	a, #0x08
+      000050 C7 50 0C         [ 1]  114 	ld	0x500c, a
+                                    115 ;	src/GPIO.c: 35: GPIOC->DDR |= 0x10;   // Set PC4 as out.
+      000053 C6 50 0C         [ 1]  116 	ld	a, 0x500c
+      000056 AA 10            [ 1]  117 	or	a, #0x10
+      000058 C7 50 0C         [ 1]  118 	ld	0x500c, a
+                                    119 ;	src/GPIO.c: 36: GPIOC->DDR |= 0x20;   // Set PC5 as out.
+      00005B C6 50 0C         [ 1]  120 	ld	a, 0x500c
+      00005E AA 20            [ 1]  121 	or	a, #0x20
+      000060 C7 50 0C         [ 1]  122 	ld	0x500c, a
+                                    123 ;	src/GPIO.c: 37: GPIOC->DDR |= 0x40;   // Set PC6 as out.
+      000063 C6 50 0C         [ 1]  124 	ld	a, 0x500c
+      000066 AA 40            [ 1]  125 	or	a, #0x40
+      000068 C7 50 0C         [ 1]  126 	ld	0x500c, a
+                                    127 ;	src/GPIO.c: 38: GPIOC->DDR |= 0x80;   // Set PC7 as out.
+      00006B C6 50 0C         [ 1]  128 	ld	a, 0x500c
+      00006E AA 80            [ 1]  129 	or	a, #0x80
+      000070 C7 50 0C         [ 1]  130 	ld	0x500c, a
+                                    131 ;	src/GPIO.c: 41: GPIOC->CR1 |= 0x08;   // Set PC3 as push pull.
+      000073 C6 50 0D         [ 1]  132 	ld	a, 0x500d
+      000076 AA 08            [ 1]  133 	or	a, #0x08
+      000078 C7 50 0D         [ 1]  134 	ld	0x500d, a
+                                    135 ;	src/GPIO.c: 42: GPIOC->CR1 |= 0x10;   // Set PC4 as push pull.
+      00007B C6 50 0D         [ 1]  136 	ld	a, 0x500d
+      00007E AA 10            [ 1]  137 	or	a, #0x10
+      000080 C7 50 0D         [ 1]  138 	ld	0x500d, a
+                                    139 ;	src/GPIO.c: 43: GPIOC->CR1 |= 0x20;   // Set PC5 as push pull.
+      000083 C6 50 0D         [ 1]  140 	ld	a, 0x500d
+      000086 AA 20            [ 1]  141 	or	a, #0x20
+      000088 C7 50 0D         [ 1]  142 	ld	0x500d, a
+                                    143 ;	src/GPIO.c: 44: GPIOC->CR1 |= 0x40;   // Set PC6 as push pull.
+      00008B C6 50 0D         [ 1]  144 	ld	a, 0x500d
+      00008E AA 40            [ 1]  145 	or	a, #0x40
+      000090 C7 50 0D         [ 1]  146 	ld	0x500d, a
+                                    147 ;	src/GPIO.c: 45: GPIOC->CR1 |= 0x80;   // Set PC7 as push pull.
+      000093 C6 50 0D         [ 1]  148 	ld	a, 0x500d
+      000096 AA 80            [ 1]  149 	or	a, #0x80
+      000098 C7 50 0D         [ 1]  150 	ld	0x500d, a
+                                    151 ;	src/GPIO.c: 48: GPIOC->CR2 &= ~0x08;  // Set speed for PC3 2 MHz.
+      00009B C6 50 0E         [ 1]  152 	ld	a, 0x500e
+      00009E A4 F7            [ 1]  153 	and	a, #0xf7
+      0000A0 C7 50 0E         [ 1]  154 	ld	0x500e, a
+                                    155 ;	src/GPIO.c: 49: GPIOC->CR2 &= ~0x10;  // Set speed for PC4 2 MHz.
+      0000A3 C6 50 0E         [ 1]  156 	ld	a, 0x500e
+      0000A6 A4 EF            [ 1]  157 	and	a, #0xef
+      0000A8 C7 50 0E         [ 1]  158 	ld	0x500e, a
+                                    159 ;	src/GPIO.c: 50: GPIOC->CR2 &= ~0x20;  // Set speed for PC5 2 MHz.
+      0000AB C6 50 0E         [ 1]  160 	ld	a, 0x500e
+      0000AE A4 DF            [ 1]  161 	and	a, #0xdf
+      0000B0 C7 50 0E         [ 1]  162 	ld	0x500e, a
+                                    163 ;	src/GPIO.c: 51: GPIOC->CR2 &= ~0x40;  // Set speed for PC6 2 MHz.
+      0000B3 C6 50 0E         [ 1]  164 	ld	a, 0x500e
+      0000B6 A4 BF            [ 1]  165 	and	a, #0xbf
+      0000B8 C7 50 0E         [ 1]  166 	ld	0x500e, a
+                                    167 ;	src/GPIO.c: 52: GPIOC->CR2 &= ~0x80;  // Set speed for PC7 2 MHz.
+      0000BB C6 50 0E         [ 1]  168 	ld	a, 0x500e
+      0000BE A4 7F            [ 1]  169 	and	a, #0x7f
+      0000C0 C7 50 0E         [ 1]  170 	ld	0x500e, a
+                                    171 ;	src/GPIO.c: 55: GPIOC->ODR |= 0x08;   // Set hlvl on PC3.
+      0000C3 C6 50 0A         [ 1]  172 	ld	a, 0x500a
+      0000C6 AA 08            [ 1]  173 	or	a, #0x08
+      0000C8 C7 50 0A         [ 1]  174 	ld	0x500a, a
+                                    175 ;	src/GPIO.c: 56: GPIOC->ODR &= ~0x10;  // Set llvl on PC4.
+      0000CB C6 50 0A         [ 1]  176 	ld	a, 0x500a
+      0000CE A4 EF            [ 1]  177 	and	a, #0xef
+      0000D0 C7 50 0A         [ 1]  178 	ld	0x500a, a
+                                    179 ;	src/GPIO.c: 57: GPIOC->ODR &= ~0x20;  // Set llvl on PC5.
+      0000D3 C6 50 0A         [ 1]  180 	ld	a, 0x500a
+      0000D6 A4 DF            [ 1]  181 	and	a, #0xdf
+      0000D8 C7 50 0A         [ 1]  182 	ld	0x500a, a
+                                    183 ;	src/GPIO.c: 58: GPIOC->ODR &= ~0x40;  // Set llvl on PC6.
+      0000DB C6 50 0A         [ 1]  184 	ld	a, 0x500a
+      0000DE A4 BF            [ 1]  185 	and	a, #0xbf
+      0000E0 C7 50 0A         [ 1]  186 	ld	0x500a, a
+                                    187 ;	src/GPIO.c: 59: GPIOC->ODR &= ~0x80;  // Set llvl on PC7.
+      0000E3 C6 50 0A         [ 1]  188 	ld	a, 0x500a
+      0000E6 A4 7F            [ 1]  189 	and	a, #0x7f
+      0000E8 C7 50 0A         [ 1]  190 	ld	0x500a, a
+      0000EB                        191 00101$:
+                                    192 ;	src/GPIO.c: 61: }
+      0000EB 81               [ 4]  193 	ret
+                                    194 ;	src/GPIO.c: 63: void GPIOD_Config (void){
+                                    195 ;	-----------------------------------------
+                                    196 ;	 function GPIOD_Config
+                                    197 ;	-----------------------------------------
+      0000EC                        198 _GPIOD_Config:
+                                    199 ;	src/GPIO.c: 65: GPIOD->DDR |= 0x04;   // Set PD2 as out.
+      0000EC C6 50 11         [ 1]  200 	ld	a, 0x5011
+      0000EF AA 04            [ 1]  201 	or	a, #0x04
+      0000F1 C7 50 11         [ 1]  202 	ld	0x5011, a
+                                    203 ;	src/GPIO.c: 66: GPIOD->DDR |= 0x08;   // Set PD3 as out.
+      0000F4 C6 50 11         [ 1]  204 	ld	a, 0x5011
+      0000F7 AA 08            [ 1]  205 	or	a, #0x08
+      0000F9 C7 50 11         [ 1]  206 	ld	0x5011, a
+                                    207 ;	src/GPIO.c: 67: GPIOD->DDR |= 0x10;   // Set PD4 as out.
+      0000FC C6 50 11         [ 1]  208 	ld	a, 0x5011
+      0000FF AA 10            [ 1]  209 	or	a, #0x10
+      000101 C7 50 11         [ 1]  210 	ld	0x5011, a
+                                    211 ;	src/GPIO.c: 68: GPIOD->DDR |= 0x20;   // Set PD5 as out.
+      000104 C6 50 11         [ 1]  212 	ld	a, 0x5011
+      000107 AA 20            [ 1]  213 	or	a, #0x20
+      000109 C7 50 11         [ 1]  214 	ld	0x5011, a
+                                    215 ;	src/GPIO.c: 69: GPIOD->DDR &= ~0x40;   // Set PD6 as input.
+      00010C C6 50 11         [ 1]  216 	ld	a, 0x5011
+      00010F A4 BF            [ 1]  217 	and	a, #0xbf
+      000111 C7 50 11         [ 1]  218 	ld	0x5011, a
+                                    219 ;	src/GPIO.c: 72: GPIOD->CR1 |= 0x04;   // Set PD2 as push pull.
+      000114 C6 50 12         [ 1]  220 	ld	a, 0x5012
+      000117 AA 04            [ 1]  221 	or	a, #0x04
+      000119 C7 50 12         [ 1]  222 	ld	0x5012, a
+                                    223 ;	src/GPIO.c: 73: GPIOD->CR1 |= 0x08;   // Set PD3 as push pull.
+      00011C C6 50 12         [ 1]  224 	ld	a, 0x5012
+      00011F AA 08            [ 1]  225 	or	a, #0x08
+      000121 C7 50 12         [ 1]  226 	ld	0x5012, a
+                                    227 ;	src/GPIO.c: 74: GPIOD->CR1 |= 0x10;   // Set PD4 as push pull.
+      000124 C6 50 12         [ 1]  228 	ld	a, 0x5012
+      000127 AA 10            [ 1]  229 	or	a, #0x10
+      000129 C7 50 12         [ 1]  230 	ld	0x5012, a
+                                    231 ;	src/GPIO.c: 75: GPIOD->CR1 |= 0x20;   // Set PD5 as push pull.
+      00012C C6 50 12         [ 1]  232 	ld	a, 0x5012
+      00012F AA 20            [ 1]  233 	or	a, #0x20
+      000131 C7 50 12         [ 1]  234 	ld	0x5012, a
+                                    235 ;	src/GPIO.c: 76: GPIOD->CR1 &= ~0x40;   // Set PD6 as floating input.
+      000134 C6 50 12         [ 1]  236 	ld	a, 0x5012
+      000137 A4 BF            [ 1]  237 	and	a, #0xbf
+      000139 C7 50 12         [ 1]  238 	ld	0x5012, a
+                                    239 ;	src/GPIO.c: 79: GPIOD->CR2 &= ~0x04;   // Set speed for PD2 2 MHz.
+      00013C C6 50 13         [ 1]  240 	ld	a, 0x5013
+      00013F A4 FB            [ 1]  241 	and	a, #0xfb
+      000141 C7 50 13         [ 1]  242 	ld	0x5013, a
+                                    243 ;	src/GPIO.c: 80: GPIOD->CR2 &= ~0x08;   // Set speed for PD3 2 MHz.
+      000144 C6 50 13         [ 1]  244 	ld	a, 0x5013
+      000147 A4 F7            [ 1]  245 	and	a, #0xf7
+      000149 C7 50 13         [ 1]  246 	ld	0x5013, a
+                                    247 ;	src/GPIO.c: 81: GPIOD->CR2 &= ~0x10;   // Set speed for PD4 2 MHz.
+      00014C C6 50 13         [ 1]  248 	ld	a, 0x5013
+      00014F A4 EF            [ 1]  249 	and	a, #0xef
+      000151 C7 50 13         [ 1]  250 	ld	0x5013, a
+                                    251 ;	src/GPIO.c: 82: GPIOD->CR2 &= ~0x20;   // Set speed for PD5 2 MHz.
+      000154 C6 50 13         [ 1]  252 	ld	a, 0x5013
+      000157 A4 DF            [ 1]  253 	and	a, #0xdf
+      000159 C7 50 13         [ 1]  254 	ld	0x5013, a
+                                    255 ;	src/GPIO.c: 83: GPIOD->CR2 &= ~0x40;   // External interrupt disable for PD6.
+      00015C C6 50 13         [ 1]  256 	ld	a, 0x5013
+      00015F A4 BF            [ 1]  257 	and	a, #0xbf
+      000161 C7 50 13         [ 1]  258 	ld	0x5013, a
+                                    259 ;	src/GPIO.c: 86: GPIOD->ODR &= ~0x04;   // Set llvl on PD2.
+      000164 C6 50 0F         [ 1]  260 	ld	a, 0x500f
+      000167 A4 FB            [ 1]  261 	and	a, #0xfb
+      000169 C7 50 0F         [ 1]  262 	ld	0x500f, a
+                                    263 ;	src/GPIO.c: 87: GPIOD->ODR &= ~0x08;   // Set llvl on PD3.
+      00016C C6 50 0F         [ 1]  264 	ld	a, 0x500f
+      00016F A4 F7            [ 1]  265 	and	a, #0xf7
+      000171 C7 50 0F         [ 1]  266 	ld	0x500f, a
+                                    267 ;	src/GPIO.c: 88: GPIOD->ODR &= ~0x10;   // Set llvl on PD4.
+      000174 C6 50 0F         [ 1]  268 	ld	a, 0x500f
+      000177 A4 EF            [ 1]  269 	and	a, #0xef
+      000179 C7 50 0F         [ 1]  270 	ld	0x500f, a
+                                    271 ;	src/GPIO.c: 89: GPIOD->ODR &= ~0x20;   // Set llvl on PD5.
+      00017C C6 50 0F         [ 1]  272 	ld	a, 0x500f
+      00017F A4 DF            [ 1]  273 	and	a, #0xdf
+      000181 C7 50 0F         [ 1]  274 	ld	0x500f, a
+      000184                        275 00101$:
+                                    276 ;	src/GPIO.c: 90: }
+      000184 81               [ 4]  277 	ret
+                                    278 	.area CODE
+                                    279 	.area CONST
+                                    280 	.area INITIALIZER
+                                    281 	.area CABS (ABS)

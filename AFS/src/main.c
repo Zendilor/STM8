@@ -32,6 +32,10 @@ INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
 	UART_Send(0x31);
 }
 
+INTERRUPT_HANDLER(IRQ_TIMER1, 11){
+	TIM1->SR1 &= ~TIM1_SR1_UIF;   // Clear interrupt flag.
+	ADC1->CR1 |= ADC1_CR1_ADON;
+}
 
 INTERRUPT_HANDLER(IRQ_TIMER2, 13){
 	TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
@@ -40,11 +44,12 @@ INTERRUPT_HANDLER(IRQ_TIMER2, 13){
 	if (segs > 2){
 		segs = 0;
 	}
-	ADC1->CR1 |= ADC1_CR1_ADON;
 }
 
 INTERRUPT_HANDLER(IRQ_ADC, 22){ // Interrupt body for ADC1.
   ADC1->CSR &= ~ADC1_CSR_EOC;    // Clear flag interrupt for ADC1.
-	data_ADC = Get_Result() * coefiz;
-	seg_num [0] = data_ADC;
+	data_ADC = (Get_Result() * coefiz) * 1000;
+	seg_num [0] = data_ADC / 1000;
+	seg_num [1] = (data_ADC % 1000) / 100;
+	seg_num [2] = (data_ADC % 100) / 10;
 }
