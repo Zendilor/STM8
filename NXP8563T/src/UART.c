@@ -2,7 +2,7 @@
 #include "UART.h"
 
 
-uint32_t frequency = 16000000;    // Frequency MCU.
+uint32_t frequency = 16000000;     // Frequency MCU.
 uint32_t baud_rate = 9600;        // Baud_rate UART1.
 
 void UART_Send (uint8_t data);
@@ -13,7 +13,7 @@ void UART_Config (void){
   //UART1->CR2 |= UART1_CR2_TCIEN;
   UART1->CR2 |= UART1_CR2_TEN;  // Enable transmit.
   UART1->CR2 |= UART1_CR2_REN;  // Enable receiver.
-  UART1->CR2 |= UART1_CR2_RIEN; // Enable interrupt receive.
+  //UART1->CR2 |= UART1_CR2_RIEN; // Enable interrupt receive.
 }
 
 void UART_Send (uint8_t data){

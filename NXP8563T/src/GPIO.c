@@ -7,8 +7,8 @@ void GPIOD_Config (void);
 
 void GPIO_Config (void){
   GPIOB_Config();
-  GPIOC_Config();
-  GPIOD_Config();
+  //GPIOC_Config();
+  //GPIOD_Config();
 }
 
 void GPIOB_Config (void){
@@ -21,12 +21,12 @@ void GPIOB_Config (void){
   GPIOB->CR1 &= ~0x20;  // Set PB5 as open drain.
 
   /*Config CR2 register*/
-  GPIOB->CR2 &= ~0x10;  // Set speed for PB4 2 MHz.
-  GPIOB->CR2 &= ~0x20;  // Set speed for PB5 2 MHz.
+  GPIOB->CR2 |= 0x10;  // Set speed for PB4 2 MHz.
+  GPIOB->CR2 |= 0x20;  // Set speed for PB5 2 MHz.
 
   /*Config ODR register*/
-  GPIOB->ODR |= 0x10;   // Set hlvl on PB4.
-  GPIOB->ODR |= 0x20;   // Set hlvl on PB5.
+  //GPIOB->ODR &= ~0x10;   // Set hlvl on PB4.
+  //GPIOB->ODR &= ~0x20;   // Set hlvl on PB5.
 }
 
 void GPIOC_Config (void){
@@ -41,7 +41,7 @@ void GPIOC_Config (void){
   GPIOC->CR2 &= ~0x10;  // Set speed for PC4 2 MHz.
 
   /*Config ODR register*/
-  GPIOB->ODR |= 0x10;   // Set hlvl on PC4.
+  GPIOC->ODR |= 0x10;   // Set hlvl on PC4.
 }
 
 void GPIOD_Config (void){

@@ -1,5 +1,5 @@
 #include "stm8s.h"
-
+#include "UART.h"
 void CLK_Deinit (void);
 
 void CLK_Config (void){
