@@ -15,7 +15,7 @@ MCU = stm8
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
---no-peep					\
+#--no-peep				\
 --Werror
 
 #Your device for stm8flash.
