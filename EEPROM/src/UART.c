@@ -10,10 +10,8 @@ void UART_Send (uint8_t data);
 void UART_Config (void){
   UART1->BRR1 = ((frequency / baud_rate) & 0x0FF0) >> 4;   // Set bir low bite.
   UART1->BRR2 = (((frequency / baud_rate) & 0xF000) >> 2) | ((frequency / baud_rate) & 0x000F);
-  //UART1->CR2 |= UART1_CR2_TCIEN;
   UART1->CR2 |= UART1_CR2_TEN;  // Enable transmit.
   UART1->CR2 |= UART1_CR2_REN;  // Enable receiver.
-  //UART1->CR2 |= UART1_CR2_RIEN; // Enable interrupt receive.
 }
 
 void UART_Send (uint8_t data){
