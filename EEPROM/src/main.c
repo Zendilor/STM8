@@ -3,7 +3,9 @@
 #include "EEPROM.h"
 #include "stm8s.h"
 
-#define FLASH_START *(unsigned int*)0x4010
+#define FLASH_START *(uint8_t*)0x4000
+
+eeprom data = 0;
 
 int main (void){
 	//enableInterrupts();
@@ -11,12 +13,12 @@ int main (void){
 	CLK_Config();
 	UART_Config();
 	EEPROM_Config();
-	FLASH->DUKR = 0xAE;
+	/*FLASH->DUKR = 0xAE;
 	FLASH->DUKR = 0x56;
 	while(!(FLASH->IAPSR & FLASH_IAPSR_DUL));
-	FLASH_START = 1;
-	FLASH->IAPSR &= ~FLASH_IAPSR_DUL;
-	UART_Send(FLASH_START);
+	FLASH_START = 0x3639;
+	FLASH->IAPSR &= ~FLASH_IAPSR_DUL;*/
+	UART_Send_16bit(FLASH_START);
   while (1){
   }
 }
