@@ -1,23 +1,19 @@
-#include "CLK.h"
-#include "UART.h"
-#include "EEPROM.h"
 #include "stm8s.h"
-
-#define FLASH_START *(unsigned int*)0x4010
+#include "UART.h"
+#include "CLK.h"
 
 int main (void){
-	//enableInterrupts();
-
-	CLK_Config();
+  CLK_Config();
 	UART_Config();
-	EEPROM_Config();
-	FLASH->DUKR = 0xAE;
+	/*FLASH->DUKR = 0xAE;
 	FLASH->DUKR = 0x56;
 	while(!(FLASH->IAPSR & FLASH_IAPSR_DUL));
-	FLASH_START = 1;
-	FLASH->IAPSR &= ~FLASH_IAPSR_DUL;
-	UART_Send(FLASH_START);
+
+	FLASH->IAPSR &= ~FLASH_IAPSR_DUL;*/
+  UART_Send(0x31);
+
   while (1){
+
   }
 }
 

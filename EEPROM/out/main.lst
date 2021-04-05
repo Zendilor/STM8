@@ -1,0 +1,173 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _IRQ_ADC
+                                     12 	.globl _IRQ_TIMER2
+                                     13 	.globl _IRQ_UART1_RX
+                                     14 	.globl _main
+                                     15 	.globl _CLK_Config
+                                     16 	.globl _UART_Send
+                                     17 	.globl _UART_Config
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area INITIALIZED
+                                     26 ;--------------------------------------------------------
+                                     27 ; Stack segment in internal ram 
+                                     28 ;--------------------------------------------------------
+                                     29 	.area	SSEG
+      000000                         30 __start__stack:
+      000000                         31 	.ds	1
+                                     32 
+                                     33 ;--------------------------------------------------------
+                                     34 ; absolute external ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area DABS (ABS)
+                                     37 
+                                     38 ; default segment ordering for linker
+                                     39 	.area HOME
+                                     40 	.area GSINIT
+                                     41 	.area GSFINAL
+                                     42 	.area CONST
+                                     43 	.area INITIALIZER
+                                     44 	.area CODE
+                                     45 
+                                     46 ;--------------------------------------------------------
+                                     47 ; interrupt vector 
+                                     48 ;--------------------------------------------------------
+                                     49 	.area HOME
+      000000                         50 __interrupt_vect:
+      000000 82v00u00u00             51 	int s_GSINIT ; reset
+      000004 82 00 00 00             52 	int 0x000000 ; trap
+      000008 82 00 00 00             53 	int 0x000000 ; int0
+      00000C 82 00 00 00             54 	int 0x000000 ; int1
+      000010 82 00 00 00             55 	int 0x000000 ; int2
+      000014 82 00 00 00             56 	int 0x000000 ; int3
+      000018 82 00 00 00             57 	int 0x000000 ; int4
+      00001C 82 00 00 00             58 	int 0x000000 ; int5
+      000020 82 00 00 00             59 	int 0x000000 ; int6
+      000024 82 00 00 00             60 	int 0x000000 ; int7
+      000028 82 00 00 00             61 	int 0x000000 ; int8
+      00002C 82 00 00 00             62 	int 0x000000 ; int9
+      000030 82 00 00 00             63 	int 0x000000 ; int10
+      000034 82 00 00 00             64 	int 0x000000 ; int11
+      000038 82 00 00 00             65 	int 0x000000 ; int12
+      00003C 82v00u00u20             66 	int _IRQ_TIMER2 ; int13
+      000040 82 00 00 00             67 	int 0x000000 ; int14
+      000044 82 00 00 00             68 	int 0x000000 ; int15
+      000048 82 00 00 00             69 	int 0x000000 ; int16
+      00004C 82 00 00 00             70 	int 0x000000 ; int17
+      000050 82v00u00u0F             71 	int _IRQ_UART1_RX ; int18
+      000054 82 00 00 00             72 	int 0x000000 ; int19
+      000058 82 00 00 00             73 	int 0x000000 ; int20
+      00005C 82 00 00 00             74 	int 0x000000 ; int21
+      000060 82v00u00u25             75 	int _IRQ_ADC ; int22
+                                     76 ;--------------------------------------------------------
+                                     77 ; global & static initialisations
+                                     78 ;--------------------------------------------------------
+                                     79 	.area HOME
+                                     80 	.area GSINIT
+                                     81 	.area GSFINAL
+                                     82 	.area GSINIT
+      000000                         83 __sdcc_gs_init_startup:
+      000000                         84 __sdcc_init_data:
+                                     85 ; stm8_genXINIT() start
+      000000 AEr00r00         [ 2]   86 	ldw x, #l_DATA
+      000003 27 07            [ 1]   87 	jreq	00002$
+      000005                         88 00001$:
+      000005 72 4FuFFuFF      [ 1]   89 	clr (s_DATA - 1, x)
+      000009 5A               [ 2]   90 	decw x
+      00000A 26 F9            [ 1]   91 	jrne	00001$
+      00000C                         92 00002$:
+      00000C AEr00r00         [ 2]   93 	ldw	x, #l_INITIALIZER
+      00000F 27 09            [ 1]   94 	jreq	00004$
+      000011                         95 00003$:
+      000011 D6uFFuFF         [ 1]   96 	ld	a, (s_INITIALIZER - 1, x)
+      000014 D7uFFuFF         [ 1]   97 	ld	(s_INITIALIZED - 1, x), a
+      000017 5A               [ 2]   98 	decw	x
+      000018 26 F7            [ 1]   99 	jrne	00003$
+      00001A                        100 00004$:
+                                    101 ; stm8_genXINIT() end
+                                    102 	.area GSFINAL
+      000000 CCr00r64         [ 2]  103 	jp	__sdcc_program_startup
+                                    104 ;--------------------------------------------------------
+                                    105 ; Home
+                                    106 ;--------------------------------------------------------
+                                    107 	.area HOME
+                                    108 	.area HOME
+      000064                        109 __sdcc_program_startup:
+      000064 CCr00r00         [ 2]  110 	jp	_main
+                                    111 ;	return from main will return to caller
+                                    112 ;--------------------------------------------------------
+                                    113 ; code
+                                    114 ;--------------------------------------------------------
+                                    115 	.area CODE
+                                    116 ;	src/main.c: 5: int main (void){
+                                    117 ;	-----------------------------------------
+                                    118 ;	 function main
+                                    119 ;	-----------------------------------------
+      000000                        120 _main:
+                                    121 ;	src/main.c: 6: CLK_Config();
+      000000 CDr00r00         [ 4]  122 	call	_CLK_Config
+                                    123 ;	src/main.c: 7: UART_Config();
+      000003 CDr00r00         [ 4]  124 	call	_UART_Config
+                                    125 ;	src/main.c: 13: UART_Send(0x31);
+      000006 4B 31            [ 1]  126 	push	#0x31
+      000008 CDr00r00         [ 4]  127 	call	_UART_Send
+      00000B 84               [ 1]  128 	pop	a
+                                    129 ;	src/main.c: 15: while (1){
+      00000C                        130 00102$:
+      00000C 20 FE            [ 2]  131 	jra	00102$
+                                    132 ;	src/main.c: 18: }
+      00000E 81               [ 4]  133 	ret
+                                    134 ;	src/main.c: 20: INTERRUPT_HANDLER(IRQ_UART1_RX, 18){
+                                    135 ;	-----------------------------------------
+                                    136 ;	 function IRQ_UART1_RX
+                                    137 ;	-----------------------------------------
+      00000F                        138 _IRQ_UART1_RX:
+      00000F 4F               [ 1]  139 	clr	a
+      000010 62               [ 2]  140 	div	x, a
+                                    141 ;	src/main.c: 21: UART_Send(UART1->DR);
+      000011 C6 52 31         [ 1]  142 	ld	a, 0x5231
+      000014 88               [ 1]  143 	push	a
+      000015 CDr00r00         [ 4]  144 	call	_UART_Send
+      000018 84               [ 1]  145 	pop	a
+                                    146 ;	src/main.c: 22: UART_Send(0x31);
+      000019 4B 31            [ 1]  147 	push	#0x31
+      00001B CDr00r00         [ 4]  148 	call	_UART_Send
+      00001E 84               [ 1]  149 	pop	a
+                                    150 ;	src/main.c: 23: }
+      00001F 80               [11]  151 	iret
+                                    152 ;	src/main.c: 26: INTERRUPT_HANDLER(IRQ_TIMER2, 13){
+                                    153 ;	-----------------------------------------
+                                    154 ;	 function IRQ_TIMER2
+                                    155 ;	-----------------------------------------
+      000020                        156 _IRQ_TIMER2:
+                                    157 ;	src/main.c: 27: TIM2->SR1 &= ~TIM2_SR1_UIF;   // Clear interrupt flag.
+      000020 72 11 53 04      [ 1]  158 	bres	21252, #0
+                                    159 ;	src/main.c: 29: }
+      000024 80               [11]  160 	iret
+                                    161 ;	src/main.c: 31: INTERRUPT_HANDLER(IRQ_ADC, 22){ // Interrupt body for ADC1.
+                                    162 ;	-----------------------------------------
+                                    163 ;	 function IRQ_ADC
+                                    164 ;	-----------------------------------------
+      000025                        165 _IRQ_ADC:
+                                    166 ;	src/main.c: 32: ADC1->CSR &= ~ADC1_CSR_EOC;    // Clear flag interrupt for ADC1
+      000025 72 1F 54 00      [ 1]  167 	bres	21504, #7
+                                    168 ;	src/main.c: 33: }
+      000029 80               [11]  169 	iret
+                                    170 	.area CODE
+                                    171 	.area CONST
+                                    172 	.area INITIALIZER
+                                    173 	.area CABS (ABS)

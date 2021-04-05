@@ -1,0 +1,167 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.0.0 #11528 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module UART
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _baud_rate
+                                     12 	.globl _frequency
+                                     13 	.globl _UART_Config
+                                     14 	.globl _UART_Send
+                                     15 	.globl _UART_Send_16bit
+                                     16 ;--------------------------------------------------------
+                                     17 ; ram data
+                                     18 ;--------------------------------------------------------
+                                     19 	.area DATA
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area INITIALIZED
+      000000                         24 _frequency::
+      000000                         25 	.ds 4
+      000004                         26 _baud_rate::
+      000004                         27 	.ds 4
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area DABS (ABS)
+                                     32 
+                                     33 ; default segment ordering for linker
+                                     34 	.area HOME
+                                     35 	.area GSINIT
+                                     36 	.area GSFINAL
+                                     37 	.area CONST
+                                     38 	.area INITIALIZER
+                                     39 	.area CODE
+                                     40 
+                                     41 ;--------------------------------------------------------
+                                     42 ; global & static initialisations
+                                     43 ;--------------------------------------------------------
+                                     44 	.area HOME
+                                     45 	.area GSINIT
+                                     46 	.area GSFINAL
+                                     47 	.area GSINIT
+                                     48 ;--------------------------------------------------------
+                                     49 ; Home
+                                     50 ;--------------------------------------------------------
+                                     51 	.area HOME
+                                     52 	.area HOME
+                                     53 ;--------------------------------------------------------
+                                     54 ; code
+                                     55 ;--------------------------------------------------------
+                                     56 	.area CODE
+                                     57 ;	src/UART.c: 10: void UART_Config (void){
+                                     58 ;	-----------------------------------------
+                                     59 ;	 function UART_Config
+                                     60 ;	-----------------------------------------
+      000000                         61 _UART_Config:
+      000000 52 04            [ 2]   62 	sub	sp, #4
+                                     63 ;	src/UART.c: 11: UART1->BRR1 = ((frequency / baud_rate) & 0x0FF0) >> 4;   // Set bir low bite.
+      000002 3Bu00u07         [ 1]   64 	push	_baud_rate+3
+      000005 3Bu00u06         [ 1]   65 	push	_baud_rate+2
+      000008 3Bu00u05         [ 1]   66 	push	_baud_rate+1
+      00000B 3Bu00u04         [ 1]   67 	push	_baud_rate+0
+      00000E 3Bu00u03         [ 1]   68 	push	_frequency+3
+      000011 3Bu00u02         [ 1]   69 	push	_frequency+2
+      000014 3Bu00u01         [ 1]   70 	push	_frequency+1
+      000017 3Bu00u00         [ 1]   71 	push	_frequency+0
+      00001A CDr00r00         [ 4]   72 	call	__divulong
+      00001D 5B 08            [ 2]   73 	addw	sp, #8
+      00001F 9F               [ 1]   74 	ld	a, xl
+      000020 A4 F0            [ 1]   75 	and	a, #0xf0
+      000022 02               [ 1]   76 	rlwa	x
+      000023 A4 0F            [ 1]   77 	and	a, #0x0f
+      000025 95               [ 1]   78 	ld	xh, a
+      000026 A6 10            [ 1]   79 	ld	a, #0x10
+      000028 62               [ 2]   80 	div	x, a
+      000029 9F               [ 1]   81 	ld	a, xl
+      00002A C7 52 32         [ 1]   82 	ld	0x5232, a
+                                     83 ;	src/UART.c: 12: UART1->BRR2 = (((frequency / baud_rate) & 0xF000) >> 2) | ((frequency / baud_rate) & 0x000F);
+      00002D 3Bu00u07         [ 1]   84 	push	_baud_rate+3
+      000030 3Bu00u06         [ 1]   85 	push	_baud_rate+2
+      000033 3Bu00u05         [ 1]   86 	push	_baud_rate+1
+      000036 3Bu00u04         [ 1]   87 	push	_baud_rate+0
+      000039 3Bu00u03         [ 1]   88 	push	_frequency+3
+      00003C 3Bu00u02         [ 1]   89 	push	_frequency+2
+      00003F 3Bu00u01         [ 1]   90 	push	_frequency+1
+      000042 3Bu00u00         [ 1]   91 	push	_frequency+0
+      000045 CDr00r00         [ 4]   92 	call	__divulong
+      000048 5B 08            [ 2]   93 	addw	sp, #8
+      00004A 02               [ 1]   94 	rlwa	x
+      00004B 6B 03            [ 1]   95 	ld	(0x03, sp), a
+      00004D 01               [ 1]   96 	rrwa	x
+      00004E 9F               [ 1]   97 	ld	a, xl
+      00004F 02               [ 1]   98 	rlwa	x
+      000050 7B 03            [ 1]   99 	ld	a, (0x03, sp)
+      000052 01               [ 1]  100 	rrwa	x
+      000053 88               [ 1]  101 	push	a
+      000054 4F               [ 1]  102 	clr	a
+      000055 02               [ 1]  103 	rlwa	x
+      000056 A4 F0            [ 1]  104 	and	a, #0xf0
+      000058 95               [ 1]  105 	ld	xh, a
+      000059 84               [ 1]  106 	pop	a
+      00005A 54               [ 2]  107 	srlw	x
+      00005B 54               [ 2]  108 	srlw	x
+      00005C A4 0F            [ 1]  109 	and	a, #0x0f
+      00005E 89               [ 2]  110 	pushw	x
+      00005F 1A 02            [ 1]  111 	or	a, (2, sp)
+      000061 85               [ 2]  112 	popw	x
+      000062 C7 52 33         [ 1]  113 	ld	0x5233, a
+                                    114 ;	src/UART.c: 13: UART1->CR2 |= UART1_CR2_TEN;  // Enable transmit.
+      000065 72 16 52 35      [ 1]  115 	bset	21045, #3
+                                    116 ;	src/UART.c: 14: UART1->CR2 |= UART1_CR2_REN;  // Enable receiver.
+      000069 72 14 52 35      [ 1]  117 	bset	21045, #2
+                                    118 ;	src/UART.c: 15: }
+      00006D 5B 04            [ 2]  119 	addw	sp, #4
+      00006F 81               [ 4]  120 	ret
+                                    121 ;	src/UART.c: 17: void UART_Send (uint8_t data){
+                                    122 ;	-----------------------------------------
+                                    123 ;	 function UART_Send
+                                    124 ;	-----------------------------------------
+      000070                        125 _UART_Send:
+                                    126 ;	src/UART.c: 18: while(!(UART1->SR & UART1_SR_TXE));
+      000070                        127 00101$:
+      000070 C6 52 30         [ 1]  128 	ld	a, 0x5230
+      000073 2A FB            [ 1]  129 	jrpl	00101$
+                                    130 ;	src/UART.c: 19: UART1->DR = data;
+      000075 AE 52 31         [ 2]  131 	ldw	x, #0x5231
+      000078 7B 03            [ 1]  132 	ld	a, (0x03, sp)
+      00007A F7               [ 1]  133 	ld	(x), a
+                                    134 ;	src/UART.c: 20: }
+      00007B 81               [ 4]  135 	ret
+                                    136 ;	src/UART.c: 22: void UART_Send_16bit (int data){
+                                    137 ;	-----------------------------------------
+                                    138 ;	 function UART_Send_16bit
+                                    139 ;	-----------------------------------------
+      00007C                        140 _UART_Send_16bit:
+                                    141 ;	src/UART.c: 23: UART_Send(data >> 8);
+      00007C 1E 03            [ 2]  142 	ldw	x, (0x03, sp)
+      00007E 4F               [ 1]  143 	clr	a
+      00007F 5D               [ 2]  144 	tnzw	x
+      000080 2A 01            [ 1]  145 	jrpl	00103$
+      000082 4A               [ 1]  146 	dec	a
+      000083                        147 00103$:
+      000083 01               [ 1]  148 	rrwa	x
+      000084 9F               [ 1]  149 	ld	a, xl
+      000085 88               [ 1]  150 	push	a
+      000086 CDr00r70         [ 4]  151 	call	_UART_Send
+      000089 84               [ 1]  152 	pop	a
+                                    153 ;	src/UART.c: 24: UART_Send(data);
+      00008A 7B 04            [ 1]  154 	ld	a, (0x04, sp)
+      00008C 88               [ 1]  155 	push	a
+      00008D CDr00r70         [ 4]  156 	call	_UART_Send
+      000090 84               [ 1]  157 	pop	a
+                                    158 ;	src/UART.c: 25: }
+      000091 81               [ 4]  159 	ret
+                                    160 	.area CODE
+                                    161 	.area CONST
+                                    162 	.area INITIALIZER
+      000000                        163 __xinit__frequency:
+      000000 00 F4 24 00            164 	.byte #0x00, #0xf4, #0x24, #0x00	; 16000000
+      000004                        165 __xinit__baud_rate:
+      000004 00 00 25 80            166 	.byte #0x00, #0x00, #0x25, #0x80	; 9600
+                                    167 	.area CABS (ABS)
