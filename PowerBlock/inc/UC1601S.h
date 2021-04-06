@@ -48,4 +48,22 @@
 #define MY							0x40
 //////////////////////////////
 
+/* RAM Address Control */
+#define RAM_Address_Control_REG	0x88
+//////////////////////////////
+
+/* Partial Display END */
+#define Display_END_REG		0xF3
+//////////////////////////////
+
+/* Partial Display Start */
+#define Display_Start_REG		0xF2
+//////////////////////////////
+
+/* Partial Display Start */
+#define Display_Partial_Enable_REG	0xF4
+#define Enable											0x01
+#define Disable											0x00
+//////////////////////////////
+
 void UC1601S_Config (void);
