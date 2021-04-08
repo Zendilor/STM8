@@ -9,6 +9,7 @@ int main (void){
 	//enableInterrupts();
 	CLK_Config();
 	UART_Config();
+	GPIO_Config();
 	I2C_Config();
 	UC1601S_Config();
 

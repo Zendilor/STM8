@@ -49,13 +49,13 @@ flash_load:	$(OUT)$(PROJ_NAME).ihx
 	stm8flash -c stlinkv2 -s flash -p $(DEVICE) -w $(OUT)$(PROJ_NAME).ihx
 
 flash_read:
-	stm8flash -c stlinkv2 -s flash -p $(DEVICE) -r $(flash)
+	stm8flash -c stlinkv2 -s flash -p $(DEVICE) -r $(OUT)$(flash)
 
 eeprom_load:
 	stm8flash -c stlinkv2 -s eeprom -p $(DEVICE) -w $(eeprom)
 
 eeprom_read:
-		stm8flash -c stlinkv2 -s eeprom -p $(DEVICE) -r $(eeprom)
+		stm8flash -c stlinkv2 -s eeprom -p $(DEVICE) -r $(OUT)$(eeprom)
 
 clean:
 	-rm -f $(OUT)*.asm $(OUT)*.adb $(OUT)*.cdb $(OUT)*.ihx $(OUT)*.lk $(OUT)*.map $(OUT)*.lst $(OUT)*.rel $(OUT)*.sym $(OUT)*.rst $(OUT)*.d

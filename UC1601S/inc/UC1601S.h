@@ -1,7 +1,22 @@
 #include "stm8s.h"
 
+/* All Registers */
+#define Temperature_REG				0x24
+#define Voltage_Control_REG 	0x28
+#define System_Reset_REG			0xE2
+#define LCD_Mapping_REG				0xC0
+#define Inversion_REG					0xA6
+#define Pixel_REG							0xA2
+#define Frame_REG							0xA0
+#define Partial_REG						0x84
+#define Scrol_Line_REG				0x40
+#define Page_Addres_REG				0xB0
+#define Column_LSB_REG				0x00
+#define Column_MSB_REG				0x10
+//////////////////////////////
+
+
 /* Temperature_Compensation */
-#define Temperature_REG	0x24
 #define TEMP_005				0x00
 #define TEMP_010				0x01
 #define TEMP_015				0x02
@@ -9,7 +24,6 @@
 //////////////////////////////
 
 /* Voltage Control */
-#define Voltage_Control_REG 0x28
 #define Capacitance_15nF		0x00
 #define Capacitance_15_24nF	0x01
 #define External_Vlcd				0x00
@@ -17,7 +31,7 @@
 //////////////////////////////
 
 /* Page Address */
-#define Page_Addres_REG	0xB0
+
 //////////////////////////////
 
 /* Display */
@@ -43,7 +57,6 @@
 //////////////////////////////
 
 /* LCD Mapping control */
-#define LCD_Mapping_REG	0x90
 #define MX							0x20
 #define MY							0x40
 //////////////////////////////

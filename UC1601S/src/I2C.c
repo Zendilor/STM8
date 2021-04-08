@@ -8,9 +8,9 @@
 
 /* I2C slow mode config */
 void I2C_Config (void){
-	I2C->FREQR = F_CPU / 1000000;																					// Set I2C input frequency.
-	I2C->TRISER = (MaxRiseTime / (1000000000 / F_CPU)) + 1;								// Max rise time.
 	I2C->CCRL = (1000000000 / Frequency_I2C) / ((1000000000/F_CPU) * 2);	// Set clock control.
+	I2C->TRISER = (MaxRiseTime / (1000000000 / F_CPU)) + 1;								// Max rise time.
+	I2C->FREQR = F_CPU / 1000000;																					// Set I2C input frequency.
 	I2C->CR1 |= I2C_CR1_PE;																								// Enable I2C.
 }
 

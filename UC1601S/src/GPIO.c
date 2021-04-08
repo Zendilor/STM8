@@ -6,9 +6,9 @@ void GPIOD_Config (void);
 
 
 void GPIO_Config (void){
-  GPIOB_Config();
-  //GPIOC_Config();
-  //GPIOD_Config();
+  //GPIOB_Config(); // Config PORTB.
+  GPIOC_Config();   // Config PORTC.
+  //GPIOD_Config(); // Config PORTD.
 }
 
 void GPIOB_Config (void){
@@ -31,17 +31,17 @@ void GPIOB_Config (void){
 
 void GPIOC_Config (void){
   /*Config DDR register*/
-  GPIOC->DDR |= 0x10;   // Set PC4 as out.
+  GPIOC->DDR |= 0x08;   // Set PC3 as out.
 
   /*Config CR1 register*/
-  GPIOC->CR1 |= 0x10;  // Set PC4 as push pull.
+  GPIOC->CR1 |= 0x08;  // Set PC3 as push pull.
 
 
   /*Config CR2 register*/
-  GPIOC->CR2 &= ~0x10;  // Set speed for PC4 2 MHz.
+  GPIOC->CR2 &= ~0x08;  // Set speed for PC3 2 MHz.
 
   /*Config ODR register*/
-  GPIOC->ODR |= 0x10;   // Set hlvl on PC4.
+  GPIOC->ODR |= 0x08;   // Set hlvl on PC3.
 }
 
 void GPIOD_Config (void){
