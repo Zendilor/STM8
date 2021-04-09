@@ -40,14 +40,11 @@ void UC1601S_Config (void){
 	BIAS(BIAS_7);
 	VBIAS(50);
 	Display_Clean();
-	Cursor_Set(2,31);
-	//Write_Data(0xFF);
-	Write_String(3,4,buffer,sizeof buffer);
+	Write_String(3, 4, buffer,sizeof buffer);
 	Display_Onn_Off(Onn);
 }
 
 void Write_String (uint8_t Y, uint8_t X, uint8_t *buff, uint8_t size){
-	//Cursor_Set(Y,X);
 	I2C_Send_Start();
 	I2C_Send_Address(Address);
 	I2C_Send_Data(Page_Addres_REG | (0x0F & Y));
