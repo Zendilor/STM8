@@ -80,3 +80,4 @@
 //////////////////////////////
 
 void UC1601S_Config (void);
+void Write_Number (uint8_t Y, uint8_t X, uint8_t Number);

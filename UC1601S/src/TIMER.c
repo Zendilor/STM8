@@ -1,10 +1,10 @@
 ﻿#include "stm8s.h"
 
 uint16_t Divider = 375;   // Divider timer.
-uint8_t Duty = 10;        // Duty cycle(on percent).
+uint8_t Duty = 1;        // Duty cycle(on percent).
 
-uint16_t TIM1_DIV = 10000;    // Divider for TIM1.
-uint16_t TIM1_REL = 1600;    // Autoreload value.
+uint16_t TIM1_DIV = 15998;    // Divider for TIM1.
+uint16_t TIM1_REL = 998;    // Autoreload value.
 
 
 void TIMER1_Config (void);
@@ -13,7 +13,7 @@ void TIMER4_Config (void);
 
 void TIMER_Config (void){
   TIMER1_Config();
-  TIMER2_Config();
+  //TIMER2_Config();
   //TIMER4_Config();
 }
 
