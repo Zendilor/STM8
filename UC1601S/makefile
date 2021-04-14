@@ -19,7 +19,7 @@ flash = flash.ihx
 CFLAG = -m$(MCU)	\
 -I $(INC)					\
 -MMD							\
---Werror					\
+#--Werror					\
 #--debug
 #--i-code-in-asm
 #-V

@@ -6,25 +6,24 @@
 #include "stm8s.h"
 #include "UC1601S.h"
 
-uint8_t data = 255;
+void UART_Send2 (uint8_t *data, uint8_t size){
+   while(!(UART1->SR & UART1_SR_TXE));
+	 while(size --){
+		 UART1->DR = *(data++);
+		 while(!(UART1->SR & UART1_SR_TXE));
+	 }
+}
 
 int main (void){
-	enableInterrupts();
+	//enableInterrupts();
 	CLK_Config();
 	UART_Config();
 	GPIO_Config();
 	I2C_Config();
 	TIMER_Config();
 	UC1601S_Config();
-
+	UART_Send2("HE",sizeof "HE");
   while (1){
-		Write_Number(0,0,data / 100);
-		Write_Number(0,6,data % 100 / 10);
-		Write_Number(0,12,data % 10);
-  }
-}
 
-INTERRUPT_HANDLER(IRQ_TIMER1, 11){
-	TIM1->SR1 &= ~TIM1_SR1_UIF;   // Clear interrupt flag.
-	data --;
+  }
 }

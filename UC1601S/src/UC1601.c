@@ -7,6 +7,12 @@
 #define C				&~0x02
 #define Address 0x70		// Address UC1601S
 
+
+
+uint8_t Letters [] = {
+	0x3E,0x51,0x49,0x45,0x3E, // 0x30 0
+};
+
 uint8_t Numbers [] = {
 	0x3E,0x51,0x49,0x45,0x3E, // 0x30 0
 	0x00,0x42,0x7F,0x40,0x00, // 0x31 1
@@ -55,6 +61,7 @@ void UC1601S_Config (void){
 	BIAS(BIAS_7);
 	VBIAS(50);
 	Display_Clean();
+	//Write_String(0,0,test_buff, sizeof test_buff);
 	Display_Onn_Off(Onn);
 }
 
